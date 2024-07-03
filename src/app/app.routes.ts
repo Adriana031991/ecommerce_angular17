@@ -10,4 +10,6 @@ export const routes: Routes = [
         path: "cart",
         loadChildren: () => import('./features/cart/cart.routes')
     },
+    { path: '**', redirectTo: '/products' },
+
 ];

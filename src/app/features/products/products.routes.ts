@@ -6,7 +6,7 @@ const ProductsRoutes: Routes = [
         loadComponent: () => import('./catalog/catalog.component').then(m => m.CatalogComponent)
     },
     {
-        path: "detail",
+        path: "detail/:id",
         loadComponent: () => import('./details/details.component').then(m => m.DetailsComponent)
     },
 ];

@@ -3,20 +3,25 @@ import { inject, Injectable } from '@angular/core';
 import { Product } from '@features/models/product.interface';
 import { Observable } from 'rxjs';
 
+const LIMIT = 5;
+
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
-
   private _http = inject(HttpClient)
-  private _url: string = 'https://fakestoreapi.com/products';
+  private _url: string = 'https://fakestoreapi.com';
   constructor() { }
 
-  getProducts(): Observable<Product[]> {
-    return this._http.get<Product[]>(this._url);
+  getProducts(page: number): Observable<Product[]> {
+    return this._http.get<Product[]>(`${this._url}/products?sort=desc`, {
+      params: {
+        limit: page * LIMIT,
+      },
+    });
   }
 
-  getProductsById(id: string) {
-    return this._http.get(`${this._url}/${id}`);
+  getProductById(id: string): Observable<Product> {
+    return this._http.get<Product>(`${this._url}/${id}`);
   }
 }

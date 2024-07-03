@@ -1,16 +1,17 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { handleErrorResponseInterceptor } from '@core/interceptors/handle-error-response.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
-    provideHttpClient(),
+    provideRouter(routes, withComponentInputBinding()),
+    provideHttpClient(withFetch(), withInterceptors([handleErrorResponseInterceptor])),
     provideFirebaseApp(() => initializeApp(environment.firebase_config)), provideAuth(() => getAuth()), provideFirestore(() => getFirestore())]
 };
